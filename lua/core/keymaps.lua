@@ -34,10 +34,19 @@ vim.keymap.set('n', '<Down>', ':resize +2<CR>', opts)
 vim.keymap.set('n', '<Left>', ':vertical resize -2<CR>', opts)
 vim.keymap.set('n', '<Right>', ':vertical resize +2<CR>', opts)
 
+-- Clear search highlights on pressing <Esc> in normal mode
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', opts)
+
 -- Buffers
 vim.keymap.set('n', '<Tab>', ':bnext<CR>', opts)
 vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', opts)
-vim.keymap.set('n', '<leader>x', ':bdelete!<CR>', opts)   -- close buffer
+vim.keymap.set('n', '<leader>x', function()
+  if vim.fn.exists ':Bdelete' == 2 then
+    vim.cmd 'Bdelete'
+  else
+    vim.cmd 'bdelete'
+  end
+end, { desc = 'Close current buffer' })
 vim.keymap.set('n', '<leader>b', '<cmd> enew <CR>', opts) -- new buffer
 
 -- Window management
@@ -46,13 +55,17 @@ vim.keymap.set('n', '<leader>h', '<C-w>s', opts)      -- split window horizontal
 vim.keymap.set('n', '<leader>se', '<C-w>=', opts)     -- make split windows equal width & height
 vim.keymap.set('n', '<leader>xs', ':close<CR>', opts) -- close current split window
 
--- Navigate between splits
-vim.keymap.set('n', '<C-h>', ':wincmd h<CR>', opts)
 -- Tabs
 vim.keymap.set('n', '<leader>to', ':tabnew<CR>', opts)   -- open new tab
 vim.keymap.set('n', '<leader>tx', ':tabclose<CR>', opts) -- close current tab
 vim.keymap.set('n', '<leader>tn', ':tabn<CR>', opts)     --  go to next tab
 vim.keymap.set('n', '<leader>tp', ':tabp<CR>', opts)     --  go to previous tab
+
+-- Quickfix navigation
+vim.keymap.set('n', '[q', '<cmd>cprev<CR>zz', { desc = 'Previous quickfix item' })
+vim.keymap.set('n', ']q', '<cmd>cnext<CR>zz', { desc = 'Next quickfix item' })
+vim.keymap.set('n', '<leader>co', '<cmd>copen<CR>', { desc = 'Open quickfix list' })
+vim.keymap.set('n', '<leader>cc', '<cmd>cclose<CR>', { desc = 'Close quickfix list' })
 
 -- Toggle line wrapping
 vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>', opts)
@@ -65,13 +78,28 @@ vim.keymap.set('v', '>', '>gv', opts)
 vim.keymap.set('v', 'p', '"_dP', opts)
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+vim.keymap.set('n', '[d', function()
+  if vim.diagnostic.jump then
+    vim.diagnostic.jump { count = -1, float = true }
+  else
+    vim.diagnostic.goto_prev()
+  end
+end, { desc = 'Go to previous diagnostic message' })
+
+vim.keymap.set('n', ']d', function()
+  if vim.diagnostic.jump then
+    vim.diagnostic.jump { count = 1, float = true }
+  else
+    vim.diagnostic.goto_next()
+  end
+end, { desc = 'Go to next diagnostic message' })
+
 vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
--- cursour
+-- cursor
 vim.keymap.set('n', '<leader>sm', ':SmearCursorToggle<CR>', { desc = 'Toggle smear cursor' })
 
 -- terminal
 vim.keymap.set('n', '<leader>ft', ':split | terminal<CR>i', opts)
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })

@@ -90,6 +90,14 @@ return {
         -- or a suggestion from your LSP for this to activate.
         map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
 
+        -- Format code manually
+        map('<leader>cf', function()
+          vim.lsp.buf.format { async = true }
+        end, '[C]ode [F]ormat')
+
+        -- Show hover documentation
+        map('K', vim.lsp.buf.hover, 'Hover Documentation')
+
         -- WARN: This is not Goto Definition, this is Goto Declaration.
         --  For example, in C this would take you to the header.
         map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -203,7 +211,7 @@ return {
               checkThirdParty = false,
               library = {
                 '${3rd}/luv/library',
-                unpack(vim.api.nvim_get_runtime_file('', true)),
+                vim.env.VIMRUNTIME,
               },
             },
             diagnostics = { disable = { 'missing-fields' } },
@@ -216,30 +224,27 @@ return {
     }
 
     -- Ensure the servers and tools above are installed
-    --  To check the current status of installed tools and/or manually install
-    --  other tools, you can run
-    --    :Mason
-    --
-    --  You can press `g?` for help in this menu.
     require('mason').setup()
 
-    -- You can add other tools here that you want Mason to install
-    -- for you, so that they are available from within Neovim.
     local ensure_installed = vim.tbl_keys(servers or {})
-    vim.list_extend(ensure_installed, {
-      'stylua', -- Used to format Lua code
-    })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
     require('mason-lspconfig').setup {
       handlers = {
         function(server_name)
+          -- stylua and other non-LSP tools should not be configured as language servers
+          if server_name == 'stylua' then
+            return
+          end
+          local ok, lsp = pcall(function()
+            return require('lspconfig')[server_name]
+          end)
+          if not ok or not lsp then
+            return
+          end
           local server = servers[server_name] or {}
-          -- This handles overriding only values explicitly passed
-          -- by the server configuration above. Useful when disabling
-          -- certain features of an LSP (for example, turning off formatting for tsserver)
           server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-          require('lspconfig')[server_name].setup(server)
+          lsp.setup(server)
         end,
       },
     }

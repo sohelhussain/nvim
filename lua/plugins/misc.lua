@@ -19,6 +19,18 @@ return {
   {
     -- Hints keybinds
     'folke/which-key.nvim',
+    event = 'VimEnter',
+    opts = {
+      spec = {
+        { '<leader>b', group = '[B]uffer' },
+        { '<leader>c', group = '[C]ode' },
+        { '<leader>d', group = '[D]iagnostics' },
+        { '<leader>h', group = 'Git [H]unk' },
+        { '<leader>s', group = '[S]earch' },
+        { '<leader>t', group = '[T]abs / [T]oggle' },
+        { '<leader>w', group = '[W]orkspace' },
+      },
+    },
   },
   {
     -- Autoclose parentheses, brackets, quotes, etc.

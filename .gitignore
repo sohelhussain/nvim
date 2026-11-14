@@ -1,0 +1,12 @@
+# Swap and temporary files
+*.swp
+*.swo
+*~
+*.un~
+
+# Neovim sessions
+[sS]ession.vim
+Sessionx.vim
+
+# macOS system files
+.DS_Store

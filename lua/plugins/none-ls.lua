@@ -27,10 +27,35 @@ return {
       formatting.prettier.with { filetypes = { 'html', 'json', 'yaml', 'markdown' } },
       formatting.stylua,
       formatting.shfmt.with { args = { '-i', '4' } },
-      formatting.terraform_fmt,
       require('none-ls.formatting.ruff').with { extra_args = { '--extend-select', 'I' } },
       require 'none-ls.formatting.ruff_format',
     }
+
+    -- Add terraform_fmt only if terraform executable is present
+    if vim.fn.executable 'terraform' == 1 then
+      table.insert(sources, formatting.terraform_fmt)
+    end
+
+    -- Add eslint_d diagnostics if available and eslint config is present
+    local has_eslint, eslint_d = pcall(require, 'none-ls.diagnostics.eslint_d')
+    if has_eslint then
+      table.insert(
+        sources,
+        eslint_d.with {
+          condition = function(utils)
+            return utils.root_has_file {
+              '.eslintrc.js',
+              '.eslintrc.cjs',
+              '.eslintrc.yaml',
+              '.eslintrc.yml',
+              '.eslintrc.json',
+              'eslint.config.js',
+              'eslint.config.mjs',
+            }
+          end,
+        }
+      )
+    end
 
     local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
     null_ls.setup {
@@ -44,7 +69,13 @@ return {
             group = augroup,
             buffer = bufnr,
             callback = function()
-              vim.lsp.buf.format { async = false }
+              vim.lsp.buf.format {
+                bufnr = bufnr,
+                filter = function(c)
+                  return c.name == 'null-ls'
+                end,
+                timeout_ms = 3000,
+              }
             end,
           })
         end
