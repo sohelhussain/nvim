@@ -1,20 +1,20 @@
-# ⚡ Sohel's Neovim Configuration
+# Sohel's Neovim Configuration
 
 A clean, modern, blazingly fast Neovim configuration built with Lua, powered by [lazy.nvim](https://github.com/folke/lazy.nvim). Configured for full-stack development, seamless LSP code intelligence, linting, formatting, fuzzy finding, Git integration, and AI assistance with GitHub Copilot.
 
 ---
 
-## ✨ Features
+## Features
 
-- **⚡ Blazing Fast Startup:** Managed by `lazy.nvim` with lazy-loading for instantaneous startup.
-- **🎨 Aesthetics:** [Nord](https://github.com/shaunsingh/nord.nvim) theme with background transparency toggle (`<leader>bg`), [Lualine](https://github.com/nvim-lualine/lualine.nvim) statusline, and [Bufferline](https://github.com/akinsho/bufferline.nvim).
-- **🧠 Full LSP & Diagnostics:** [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) + [Mason](https://github.com/williamboman/mason.nvim) for automatic server management (TypeScript, Python, Rust, HTML, CSS, Tailwind, Docker, SQL, Terraform, JSON, YAML, Lua).
-- **✨ Formatting & Linting:** [none-ls](https://github.com/nvimtools/none-ls.nvim) with Prettier, Stylua, Ruff, ESLint_d, and shfmt. Auto-formats on save.
-- **🔍 Telescope Search:** Fast fuzzy finding for files, grep, buffers, git, and keymaps.
-- **📁 File Explorer:** [Neo-tree](https://github.com/nvim-neo-tree/neo-tree.nvim) for file navigation, git status tracking, and file management.
-- **🌳 Treesitter:** Advanced syntax highlighting, indentation, and incremental selection across dozens of languages.
-- **🤖 GitHub Copilot:** [copilot.lua](https://github.com/zbirenbaum/copilot.lua) integration with unobtrusive ghost-text suggestions.
-- **🐙 Git Integrated:** [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) for diffs and staging hunks + [vim-fugitive](https://github.com/tpope/vim-fugitive).
+- ** Blazing Fast Startup:** Managed by `lazy.nvim` with lazy-loading for instantaneous startup.
+- ** Aesthetics:** [Nord](https://github.com/shaunsingh/nord.nvim) theme with background transparency toggle (`<leader>bg`), [Lualine](https://github.com/nvim-lualine/lualine.nvim) statusline, and [Bufferline](https://github.com/akinsho/bufferline.nvim).
+- ** Full LSP & Diagnostics:** [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) + [Mason](https://github.com/williamboman/mason.nvim) for automatic server management (TypeScript, Python, Rust, HTML, CSS, Tailwind, Docker, SQL, Terraform, JSON, YAML, Lua).
+- ** Formatting & Linting:** [none-ls](https://github.com/nvimtools/none-ls.nvim) with Prettier, Stylua, Ruff, ESLint_d, and shfmt. Auto-formats on save.
+- ** Telescope Search:** Fast fuzzy finding for files, grep, buffers, git, and keymaps.
+- ** File Explorer:** [Neo-tree](https://github.com/nvim-neo-tree/neo-tree.nvim) for file navigation, git status tracking, and file management.
+- ** Treesitter:** Advanced syntax highlighting, indentation, and incremental selection across dozens of languages.
+- ** GitHub Copilot:** [copilot.lua](https://github.com/zbirenbaum/copilot.lua) integration with unobtrusive ghost-text suggestions.
+- ** Git Integrated:** [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) for diffs and staging hunks + [vim-fugitive](https://github.com/tpope/vim-fugitive).
 - **🪄 Quality of Life:** 
   - [smear-cursor.nvim](https://github.com/sphamba/smear-cursor.nvim) for smooth cursor animations.
   - [vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator) for seamless split & tmux navigation (`<C-h>`, `<C-j>`, `<C-k>`, `<C-l>`).
@@ -23,7 +23,7 @@ A clean, modern, blazingly fast Neovim configuration built with Lua, powered by 
 
 ---
 
-## 📋 Prerequisites
+## Prerequisites
 
 Before installing, make sure your system has the following installed:
 
@@ -55,7 +55,7 @@ sudo apt install ripgrep fd-find git curl nodejs npm python3 python3-pip build-e
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ### 1. Backup existing Neovim configuration (Recommended)
 
@@ -171,7 +171,7 @@ For a complete, comprehensive cheat sheet, see **[NVIM_KEYMAPS.md](NVIM_KEYMAPS.
 
 ---
 
-## 🛠️ Customization
+## Customization
 
 - **Disable typing sounds:** Comment out or remove `require('core.zap_sound').setup()` in `init.lua`.
 - **Add / Remove LSP Servers:** Edit `lua/plugins/lsp.lua` under the `servers` table.
@@ -179,6 +179,6 @@ For a complete, comprehensive cheat sheet, see **[NVIM_KEYMAPS.md](NVIM_KEYMAPS.
 
 ---
 
-## 📄 License
+## License
 
 Distributed under the MIT License. Feel free to fork, adapt, and use!
